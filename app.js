@@ -29,17 +29,23 @@ if (contactForm) {
     const submitBtn = contactForm.querySelector(".btn-submit");
 
     if (!nombre || !correo || !mensaje) {
-      alert("Por favor completa todos los campos requeridos.");
       return;
     }
 
-    try {
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Enviando...";
-      }
+    // Limpiar mensaje de error previo si existiera
+    const previousError = contactForm.querySelector(".form-error");
+    if (previousError) {
+      previousError.remove();
+    }
 
-      // Guardar el mensaje en la colección "mensajes" con los campos exactos requeridos
+    // Mientras se guarda: desactiva el botón y muestra "Enviando..."
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enviando...";
+    }
+
+    try {
+      // Guardar en Firestore en la colección "mensajes"
       await addDoc(collection(db, "mensajes"), {
         nombre,
         correo,
@@ -47,16 +53,47 @@ if (contactForm) {
         fecha: serverTimestamp()
       });
 
-      alert("¡Mensaje enviado con éxito!");
-      contactForm.reset();
+      // Éxito: cambiar el formulario por el mensaje de agradecimiento
+      const mensajeExito = document.createElement("div");
+      mensajeExito.id = "contact-form";
+      mensajeExito.className = "contact-form success-message";
+
+      const p = document.createElement("p");
+      p.className = "success-text";
+
+      // Asignar nombre y correo con textContent (no como HTML)
+      const spanNombre = document.createElement("span");
+      spanNombre.textContent = nombre;
+
+      const spanCorreo = document.createElement("span");
+      spanCorreo.textContent = correo;
+
+      p.append(
+        "¡Gracias por escribirme, ",
+        spanNombre,
+        "! Te respondo pronto a tu correo ",
+        spanCorreo,
+        "."
+      );
+
+      mensajeExito.appendChild(p);
+      contactForm.replaceWith(mensajeExito);
     } catch (error) {
       console.error("Error al guardar en Firestore:", error);
-      alert("Hubo un error al enviar el mensaje. Por favor intenta de nuevo.");
-    } finally {
+
+      // Si falla: mostrar "No se pudo enviar, intenta de nuevo"
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.textContent = "Enviar";
+        submitBtn.textContent = "No se pudo enviar, intenta de nuevo";
       }
+
+      let errorMsg = contactForm.querySelector(".form-error");
+      if (!errorMsg) {
+        errorMsg = document.createElement("p");
+        errorMsg.className = "form-error";
+        contactForm.appendChild(errorMsg);
+      }
+      errorMsg.textContent = "No se pudo enviar, intenta de nuevo";
     }
   });
 }

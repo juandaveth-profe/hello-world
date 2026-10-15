@@ -262,6 +262,33 @@ h1, h2, h3 {
   transform: none;
 }
 
+/* Success and Error Feedback Styles */
+.success-message {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+}
+
+.success-text {
+  font-size: 1.2rem;
+  color: #1D1128;
+  line-height: 1.7;
+}
+
+.success-text span {
+  font-weight: 700;
+  color: #5941A9;
+}
+
+.form-error {
+  color: #e53e3e;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 10px;
+}
+
 /* Footer */
 .footer {
   background-color: #1D1128;
