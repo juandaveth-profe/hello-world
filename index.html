@@ -49,11 +49,33 @@
 
     <section id="contacto" class="section">
       <div class="container">
-        <h2 class="section-title text-dark">Datos de contacto</h2>
+        <h2 class="section-title text-dark">Contacto</h2>
         <p class="contact-text">Ponte en contacto para futuras oportunidades.</p>
+
+        <form class="contact-form" action="#" method="POST" onsubmit="event.preventDefault();">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required>
+          </div>
+          <div class="form-group">
+            <label for="correo">Correo</label>
+            <input type="email" id="correo" name="correo" placeholder="tu@correo.com" required>
+          </div>
+          <div class="form-group">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" rows="5" placeholder="¿En qué te puedo ayudar?" required></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Enviar</button>
+        </form>
       </div>
     </section>
   </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Juan David Reyes P. Todos los derechos reservados.</p>
+    </div>
+  </footer>
 </body>
 
 </html>
