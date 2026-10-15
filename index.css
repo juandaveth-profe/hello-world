@@ -256,6 +256,12 @@ h1, h2, h3 {
   transform: translateY(0);
 }
 
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* Footer */
 .footer {
   background-color: #1D1128;
